@@ -70,10 +70,11 @@ async function run(video, imageData, imageDataFiltered) {
  //myYolo.predict(webcam, { scoreThreshold: threshold });
   console.log(boxes);
 
-  imageDataFiltered = filter(imageData, imageDataFiltered, boxes)
+  
   boxes.map((box) => {
     ctx.drawImage(video, 0, 0);
     console.log("drawing box " + box.toString());
+    imageDataFiltered = filter(imageData, imageDataFiltered, box)
     
     // ctx.lineWidth = 2;
     // ctx.fillStyle = "red";
@@ -106,11 +107,10 @@ const kernel = boxBlur20Kernel;
 const kernelHeight = kernel.length;
 const kernelWidth = kernel[0].length;
 
-function filter(data, data2, boxList){
+function filter(data, data2, box){
   
-  let box = boxList[0];
+ 
 
-  if(box){
     let left = parseInt(box["left"])
     let width = parseInt(box["width"])
     let top = parseInt(box["top"])
@@ -156,7 +156,7 @@ function filter(data, data2, boxList){
       // data2.data[y*640*4 + x*4 + 3] = 255;
     }
   }
-  }
+  
 
     // for(let i = 0; i < data2.data.length; i++){
     //   data2.data[i] = 200;
